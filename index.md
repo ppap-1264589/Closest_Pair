@@ -89,7 +89,7 @@ Như vậy: trong trường hợp xấu nhất, với mỗi điểm, ta chỉ c�
 
 > Tổng độ phức tạp thuật toán : O(NlogN)
 
-# Code
+### Code
 ```c++
 #include <bits/stdc++.h>
 #define up(i,a,b) for (int i = (int)a; i <= (int)b; i++)
@@ -166,7 +166,7 @@ signed main(){
 }
 ```
 
-## Một số chú ý :
+### Một số chú ý :
 
 - Khi giải trường hợp gốc, ta sort luôn các điểm theo tọa độ y
 
