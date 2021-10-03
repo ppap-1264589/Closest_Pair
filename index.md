@@ -155,10 +155,6 @@ double ClosestPair(pii P[], int n){
 }
 
 signed main(){
-    ios_base::sync_with_stdio(false);
-    cin.tie(0);
-    cout.tie(0);
-
     int n;
     cin >> n;
     up(i, 0, n-1) cin >> a[i].x >> a[i].y;
@@ -167,8 +163,11 @@ signed main(){
 
     cout << fixed << setprecision(3);
     cout << result;
-    return 0;
 }
 ```
 
+## Một số chú ý :
 
+- Khi giải trường hợp gốc, ta sort luôn các điểm theo tọa độ y
+
+    -> Khi gộp các điểm trong hai mặt phẳng về một, dễ dàng dùng thuật sắp xếp trộn hơn (với ĐPT O(n))
