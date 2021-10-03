@@ -7,7 +7,7 @@ Cho n điểm trên mặt phẳng tọa độ. Tìm khoảng cách ngắn nhất
 
 Dòng đầu tiên chứa số nguyên dương n (n ≤ 10^5) là số điểm.
 
-n dòng tiếp, dòng thứ i chứa 2 số nguyên xi, yi (|xi|,|yi|≤10^9) xác định tọa độ điểm thứ i.
+n dòng tiếp, dòng thứ i chứa 2 số nguyên xi, yi (abs(xi), abs(yi) ≤ 10^9) xác định tọa độ điểm thứ i.
 
 **Output**
 
