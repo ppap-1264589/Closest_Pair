@@ -90,79 +90,97 @@ Như vậy: trong trường hợp xấu nhất, với mỗi điểm, ta chỉ c�
 > Tổng độ phức tạp thuật toán : O(NlogN)
 
 ### Code
+
 ```c++
-#include <bits/stdc++.h>
-#define up(i,a,b) for (int i = (int)a; i <= (int)b; i++)
-#define pii pair<int, int>
+#include "bits/stdc++.h"
+#define Task "A"
+#define void inline void
+#define up(i,a,b) for (int i = int(a); i <= int(b); i++)
+#define pii pair<long long, long long>
 #define x first
 #define y second
 using namespace std;
 
-const int maxn = 200001;
+const int maxn = 2e5 + 10;
 pii a[maxn];
-pii temp[maxn];
 pii strip[maxn];
-double best = 1e18;
+int n;
+double best = DBL_MAX;
 
-double dist(pii a, pii b){
-    double hx = a.x - b.x;
-    double hy = a.y - b.y;
-    return sqrt(hx*hx + hy*hy);
+long long sqr(long long x){
+    return x*x;
 }
 
-double Basecase(pii P[], int n){
-    up(i, 0, n-1) up(j, i+1, n-1){
-        double T = dist(P[i], P[j]);
-        best = min(best, T);
+bool compy(pii a, pii b){
+    return (a.y < b.y);
+}
+
+long long value(pii a, pii b){
+    return (sqr(a.x - b.x) + sqr(a.y - b.y));
+}
+
+double dist(pii a, pii b){
+    return sqrt(sqr(a.x - b.x) + sqr(a.y - b.y));
+}
+
+double Merge_Strip(pii P[], int n){
+    up(i,0,n-1){
+        for (int j = 1; j <= 3 && i + j < n; j++){
+            pii X = P[i];
+            pii Y = P[i+j];
+            best = min(best, dist(X, Y));
+        }
     }
     return best;
 }
 
-bool compy(pii p, pii q) { return (p.y < q.y); }
-bool compx(pii p, pii q) { return (p.x < q.x); }
-
-void MergeStrip(pii P[], int n, double d){
-    up(i, 0, n-1) for (int j = 1; j <= 3 && i + j < n; j++){
-        double T = dist(strip[i], strip[i+j]);
-        if (best > T) best = T;
-        else break;
+double Basecase(pii P[], int n){
+    up(i,0,n-1){
+        up(j,i+1, n-1){
+            best = min(best, dist(P[i], P[j]));
+        }
     }
+    return best;
 }
 
-double ClosestPair(pii P[], int n){
+double Closest_Pair(pii P[], int n){
     if (n <= 3){
         sort(P, P+n, compy);
         return Basecase(P, n);
     }
 
     int mid = n/2;
-    pii midP = P[mid];
-    double dl = ClosestPair(P, mid);
-    double dr = ClosestPair(P+mid, n-mid);
-    double d = min(dl, dr);
+    pii MID = P[mid];
+    double d1 = Closest_Pair(P, mid);
+    double d2 = Closest_Pair(P+mid, n-mid);
+    double d = min({d1, d2, best});
 
-    merge(P, P+mid, P+mid, P+n, temp, compy);
+    merge(P, P+mid, P+mid, P+n, strip, compy);
 
     int cnt = 0;
-    up(i, 0, n-1){
-        P[i] = temp[i];
-        if (abs(midP.x - P[i].x) < d){
+    up(i,0,n-1){
+        P[i] = strip[i];
+        if (abs(MID.x - P[i].x) < d){
             strip[cnt++] = P[i];
         }
     }
-    MergeStrip(strip, cnt, d);
-    return best;
+    return Merge_Strip(strip, cnt);
 }
 
 signed main(){
-    int n;
-    cin >> n;
-    up(i, 0, n-1) cin >> a[i].x >> a[i].y;
-    sort(a, a+n, compx);
-    double result = ClosestPair(a, n);
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    if (fopen(Task".inp", "r")){
+        freopen (Task".inp", "r", stdin);
+        freopen (Task".out", "w", stdout);
+    }
 
-    cout << fixed << setprecision(3);
-    cout << result;
+    cin >> n;
+    up(i,0,n-1) cin >> a[i].x >> a[i].y;
+    sort(a, a+n);
+    Closest_Pair(a, n);
+    cout << best;
+    return 0;
 }
 ```
 
