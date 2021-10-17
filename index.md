@@ -76,16 +76,21 @@ Tuy nhiên ta chỉ cần xét những bộ điểm có tọa độ x nằm tron
 
 Tới đây, sắp xếp các điểm nằm trong dải hình chữ nhật theo tọa độ y: tạo độ y nào lớn hơn sẽ được duyệt trước. 
 
-Sau đó, xét từng cặp điểm một trong dài hình chữ nhật. Vẫn lưu ý là khi khoảng cách giữa hai điểm lớn hơn best_distance thì break ngay lập tức. Việc sort và duyệt như vậy đảm bảo sẽ không bỏ sót trường hợp cặp điểm tốt hơn best_distance.
+Sau đó, xét từng cặp điểm một trong dài hình chữ nhật. Vẫn lưu ý là **khi khoảng cách giữa hai điểm lớn hơn best_distance thì break ngay lập tức**. Việc sort và duyệt như vậy đảm bảo sẽ không bỏ sót trường hợp cặp điểm tốt hơn best_distance.
 
 ![34](https://user-images.githubusercontent.com/88699088/135738025-8a6a95cc-c1a3-48a3-8bc2-e05d647a79ac.png)
 
-Thực tế, việc xét các điểm trong dải Ruy-băng như vậy chính là việc xét một điểm với các điểm nằm trong hình chữ nhật 2h*h (h là best_distance)
+Chính do kĩ thuật duyệt tối ưu: **gặp cặp điểm có khoảng cách lớn hơn best_distance thì break ngay lập tức**, nên việc xét các điểm trong dải Ruy-băng như vậy chính là việc xét một điểm với các điểm nằm trong hình chữ nhật 2h*h (h là best_distance)
 
-Do cả bên trái và bên phải của mặt phẳng, không thể có cặp điểm nào có khoảng cách nhỏ hơn best_distance, nên chúng ta chỉ có thể đặt tối đa 4 điểm vào trong một hình vuông của HCN đang xét:
+Ta nhận thấy rằng, cả bên trái và bên phải đường chia mặt phẳng, không thể có cặp điểm nào có khoảng cách nhỏ hơn h, do vòng đệ quy đã giải được best_distance ở hai bên đường chia mặt phẳng từ trước
+
+> Chúng ta chỉ có thể đặt tối đa 4 điểm vào trong một hình vuông của HCN đang xét
+
+Dễ dàng chứng minh được phát biểu trên bằng cách trả lời câu hỏi: Có cách nào đặt nhiều hơn 4 điểm vào trong một hình vuông (a*a) sao cho khoảng cách nhỏ nhất giữa hai điểm bất kì nhỏ hơn a hay không ? (chắc chắn là không thể)
+
 ![closest](https://user-images.githubusercontent.com/88699088/135738314-2c5a1907-efd4-4162-90ab-4a51db815012.PNG)
 
-Như vậy: trong trường hợp xấu nhất, với mỗi điểm, ta chỉ cần duyệt với 3 điểm theo thứ tự đã sort để tìm ra cặp điểm nhỏ nhất. Độ phức tạp O(1)
+Như vậy: trong trường hợp xấu nhất, với mỗi điểm, ta chỉ cần duyệt với 3 điểm theo thứ tự sort : tăng dần theo x và giảm dần theo y để tìm ra cặp điểm nhỏ nhất. Có thể coi việc duyệt 3 điểm có ĐPT xấp xỉ O(1)
 
 > Tổng độ phức tạp thuật toán : O(NlogN)
 
@@ -112,7 +117,7 @@ long long sqr(long long x){
 }
 
 bool compy(pii a, pii b){
-    return (a.y < b.y);
+    return (a.y > b.y);
 }
 
 long long value(pii a, pii b){
@@ -186,6 +191,6 @@ signed main(){
 
 ### Một số chú ý :
 
-- Khi giải trường hợp gốc, ta sort luôn các điểm theo tọa độ y
+- Khi giải trường hợp gốc, ta sort luôn các điểm theo tọa độ y giảm dần
 
-    -> Khi gộp các điểm trong hai mặt phẳng về một, dễ dàng dùng thuật sắp xếp trộn hơn (với ĐPT O(n))
+    -> Khi gộp các điểm từ hai bên đường chia mặt phẳng về một, dễ dàng dùng thuật sắp xếp trộn hơn (với ĐPT O(n))
